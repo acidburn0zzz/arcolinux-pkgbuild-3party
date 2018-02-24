@@ -3,8 +3,8 @@
 
 _pkgname=mintstick
 pkgname=$_pkgname-git
-pkgver=r177.860ea2c
-pkgrel=2
+pkgver=r180.0d7083f
+pkgrel=1
 pkgdesc="Format or write images to usb-sticks (Linux Mint tool)"
 arch=('any')
 url="https://github.com/linuxmint/mintstick"

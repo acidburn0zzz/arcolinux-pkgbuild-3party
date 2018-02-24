@@ -1,7 +1,7 @@
 # Maintainer: Patrick Wozniak <hello@patwoz.de>
 
 pkgname=openbox-arc-git
-pkgver=20170913.r18.d6bfa0e
+pkgver=20180224.r18.d6bfa0e
 pkgrel=1
 pkgdesc="An attempt to create Openbox themes to fit with the rest of the Arc theme. (git)"
 

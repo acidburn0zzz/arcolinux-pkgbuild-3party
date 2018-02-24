@@ -1,7 +1,7 @@
 # Maintainer: Dylan Araps <dyl@tfwno.gf>
 pkgname=neofetch-git
 _pkgname=neofetch
-pkgver=3.3.0.r40.g402ac0b
+pkgver=3.3.0.r161.g1ef7765
 pkgrel=1
 pkgdesc="A CLI system information tool written in BASH that supports displaying images."
 arch=('any')
