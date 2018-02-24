@@ -1,0 +1,58 @@
+# Maintainer: Philip Müller <philm[at]manjaro[dog]org>
+# STABLE  https://raw.githubusercontent.com/manjaro/packages-extra/master/calamares/PKGBUILD
+# GIT     https://raw.githubusercontent.com/manjaro/packages-extra/master/calamares-git/PKGBUILD
+
+pkgname=calamares
+pkgver=3.1.1
+_pkgver=3.1.1
+pkgrel=1
+_commit=aea947a517086b4938e3a3d72de1fd9e0e332a2a
+pkgdesc='Distribution-independent installer framework'
+arch=('i686' 'x86_64')
+license=(GPL)
+url="https://github.com/calamares"
+license=('LGPL')
+depends=('kconfig' 'kcoreaddons' 'ki18n' 'solid' 'yaml-cpp' 'kpmcore>=3.1.0' 'mkinitcpio-openswap'
+         'boost-libs' 'hwinfo' 'qt5-svg' 'polkit-qt5' 'gtk-update-icon-cache' 'pythonqt>=3.2')
+makedepends=('extra-cmake-modules' 'qt5-tools' 'qt5-translations' 'git' 'boost')
+backup=('usr/share/calamares/modules/bootloader.conf'
+        'usr/share/calamares/modules/displaymanager.conf'
+        'usr/share/calamares/modules/initcpio.conf'
+        'usr/share/calamares/modules/unpackfs.conf')
+
+source+=(#"$pkgname-$pkgver.tar.gz::https://github.com/manjaro/calamares/archive/v${_pkgver}.tar.gz")
+         "$pkgname-$pkgver-$pkgrel.tar.gz::https://github.com/manjaro/calamares/archive/${_commit}.tar.gz")
+sha256sums=('a03fc6eeb0ea865d0628ad0ac3b4f48b5b29175c0f7080053a03c6f4bddd0b04')
+
+prepare() {
+	mv ${srcdir}/calamares-${_commit} ${srcdir}/calamares-${_pkgver}
+	cd ${srcdir}/calamares-${_pkgver}
+	# patches here
+}
+
+build() {
+	cd ${srcdir}/calamares-${_pkgver}
+
+	mkdir -p build
+	cd build
+        cmake .. \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/usr \
+              -DCMAKE_INSTALL_LIBDIR=lib \
+              -DWITH_PYTHONQT:BOOL=ON \
+              -DSKIP_MODULES="webview interactiveterminal initramfs \
+                              initramfscfg dracut dracutlukscfg \
+                              dummyprocess dummypython dummycpp \
+                              dummypythonqt"
+        make
+}
+
+package() {
+	cd ${srcdir}/calamares-${_pkgver}/build
+	make DESTDIR="$pkgdir" install
+	install -Dm644 "../data/manjaro-icon.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/calamares.svg"
+	install -Dm644 "../data/calamares.desktop" "$pkgdir/usr/share/applications/calamares.desktop"
+	install -Dm755 "../data/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	install -Dm644 "../data/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
+	chmod 750      "$pkgdir"/etc/polkit-1/rules.d
+}
