@@ -23,8 +23,8 @@ makepkg --sign
 #### cleaning up
 
 echo "moving created files to repo"
-mv $search*pkg.tar.xz ../../archmerge_repo_iso/x86_64/
-mv $search*pkg.tar.xz.sig ../../archmerge_repo_iso/x86_64/
+mv $search*pkg.tar.xz ../../arcolinux_repo_iso/x86_64/
+mv $search*pkg.tar.xz.sig ../../arcolinux_repo_iso/x86_64/
 
 
 
